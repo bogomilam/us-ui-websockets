@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
-// import reactLogo from "./assets/react.svg";
-// import viteLogo from "/vite.svg";
-// import { io } from "socket.io-client";
+import Navbar from "./components/NavBar";
 import "./App.css";
+import Dashboard from "./containers/DataPage";
 
 const socket = new WebSocket("ws://localhost:3001");
 
@@ -13,11 +12,14 @@ function App() {
     socket.onmessage = (event) => {
       const data = JSON.parse(event.data);
       setMessage(data.message);
+      console.log("Message from server:", data.message);
     };
   }, []);
 
   return (
-    <div>
+    <div className="App">
+      <Navbar />
+      <Dashboard />
       <h1>Monitoring Dashboard</h1>
       <p>Server says: {message}</p>
     </div>
