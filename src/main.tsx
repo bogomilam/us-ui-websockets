@@ -5,19 +5,24 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 // import App from "./App.tsx";
 import Layout from "./containers/WithLayout.tsx";
-import { Page, pages } from "./pages/Regions.tsx";
+import { regions, Region } from "./components/pages/Regions.tsx";
+// import { Regions } from "./pages/Regions.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
         <Route path="" element={<Layout />}>
-          {pages.map((page: Page) => {
-            const Component = page.element as React.LazyExoticComponent<
+          {regions.map((region: Region) => {
+            const Component = region.element as React.LazyExoticComponent<
               () => JSX.Element
             >;
             return (
-              <Route key={page.path} path={page.path} element={<Component />} />
+              <Route
+                key={region.path}
+                path={region.path}
+                element={<Component />}
+              />
             );
           })}
         </Route>

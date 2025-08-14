@@ -1,13 +1,13 @@
 import { ComponentType, LazyExoticComponent } from "react";
 import { lazy } from "react";
 
-export interface Page {
+export interface Region {
   name: string;
   path: string;
   element: LazyExoticComponent<ComponentType<any>>;
 }
 
-export const pages: Page[] = [
+export const regions: Region[] = [
   {
     name: "US East",
     path: "us-east",

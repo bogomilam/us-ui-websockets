@@ -1,5 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
-import { pages, Page } from "@/pages/Regions";
+import { Region, regions } from "@/components/pages/Regions";
 
 export default function Navbar() {
   const location = useLocation();
@@ -17,78 +17,23 @@ export default function Navbar() {
           {/* Dropdown for Regions */}
           <div className="relative group">
             <button className="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600">
-              {location.pathname === "/" ? "Select Region" : location.pathname}
+              {location.pathname === "/"
+                ? "Select Region"
+                : location.pathname.slice(1)}
             </button>
-            <div className="absolute right-0 w-40 bg-white text-black rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
-              {pages.map(({ name, path }: Page) => (
-                <>
-                  {/* <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg opacity-0"> */}
-                  <button
-                    // data-dropdown-toggle="dropdownHover"
-                    data-dropdown-trigger="{hover|click}"
-                    className="bg-gray-700 w-full  px-4 py-2 rounded hover:bg-gray-600"
-                  >
-                    <Link
-                      key={path}
-                      to={`/${path}`}
-                      className=" block px-4 hover:bg-gray-100"
-                    >
-                      {name}
-                    </Link>
-                  </button>
-
-                  {/* </div> */}
-                  {/* <div
-                    //           className="absolute right-0 mt-1 w-40
-                    // bg-white text-black rounded shadow-md "
-                    className="absolute right-0 mt-1 w-40 bg-white text-black rounded shadow-md"
-                  >
-                    <Link
-                      to={`/${path}`}
-                      className="block px-4 py-2 hover:bg-gray-100"
-                    >
-                      {name}
-                    </Link>
-                  </div> */}
-                </>
-              ))}
-
-              {/* <div className="absolute right-0 mt-2 w-40 bg-white text-black rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Home
-                </a>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  About
-                </a>
-                <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                  Contact
-                </a>
-              </div> */}
-            </div>
-          </div>
-
-          {/* <DropdownMenu>
-            <DropdownMenuTrigger>
-              {location.pathname === "/" ? "Select Region" : location.pathname}
-            </DropdownMenuTrigger>
-            <DropdownMenuContent>
-              <DropdownMenuLabel>Regions</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {pages.map(({ name, path }: Page) => (
+            <div className="absolute right-0 w-40 bg-gray-700 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
+              {regions.map(({ name, path }: Region) => (
+                // <Page key={path} name={name} path={path} element={<element />} />
                 <Link
                   key={path}
-                  to={`/${path}`}
-                  className={`hover:text-yellow-300 ${
-                    location.pathname === path ? "font-bold underline" : ""
-                  }`}
+                  to={path}
+                  className="block px-4 py-2 hover:bg-gray-500 text-white hover:text-gray-100"
                 >
-                  <DropdownMenuItem className="cursor-pointer">
-                    {name}
-                  </DropdownMenuItem>
+                  {name}
                 </Link>
               ))}
-            </DropdownMenuContent>
-          </DropdownMenu> */}
+            </div>
+          </div>
         </div>
       </div>
     </nav>
