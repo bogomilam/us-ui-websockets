@@ -1,2 +1,18 @@
 @import "tailwindcss";
 
+@import "tw-animate-css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+/* Remove the @apply directive and use Tailwind classes in your HTML/JSX:
+   <main class="flex flex-col min-h-screen">...</main>
+*/
+main {
+  /* Add custom styles here if needed */
+  background-color: rgb(59, 125, 72);
+
+  .Link {
+    margin: 0;
+  }
+}

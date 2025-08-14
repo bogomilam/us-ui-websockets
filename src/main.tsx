@@ -5,13 +5,13 @@ import { createRoot } from "react-dom/client";
 import "./index.css";
 // import App from "./App.tsx";
 import Layout from "./containers/WithLayout.tsx";
-import { Page, pages } from "./pages/page.tsx";
+import { Page, pages } from "./pages/Regions.tsx";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <BrowserRouter >
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path="" element={<Layout />}>
           {pages.map((page: Page) => {
             const Component = page.element as React.LazyExoticComponent<
               () => JSX.Element
