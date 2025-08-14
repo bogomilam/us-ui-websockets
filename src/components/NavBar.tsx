@@ -1,3 +1,4 @@
+import { Link, useLocation } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -6,9 +7,11 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./DropDownMenu";
-import { regions } from "@/lib/utils";
+import { pages, Page } from "@/pages/page";
 
 export default function Navbar() {
+  const location = useLocation();
+
   return (
     <nav className=" navBar bg-gray-500 p-4">
       <div className="container mx-auto flex justify-between items-center">
@@ -19,23 +22,24 @@ export default function Navbar() {
           <a href="/" className="text-gray-300 hover:text-white">
             Home
           </a>
-          {/* <a href="/data" className="text-gray-300 hover:text-white">
-            Data
-          </a> */}
+
           <DropdownMenu>
-            <DropdownMenuTrigger>Server Locations</DropdownMenuTrigger>
+            <DropdownMenuTrigger>{location.pathname}</DropdownMenuTrigger>
             <DropdownMenuContent>
               <DropdownMenuLabel>Regions</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {regions.map((region) => (
-                <a
-                  href={`/${region}`}
-                  className="text-gray-300 hover:text-white"
+              {pages.map(({ name, path }: Page) => (
+                <Link
+                  key={path}
+                  to={path}
+                  className={`hover:text-yellow-300 ${
+                    location.pathname === path ? "font-bold underline" : ""
+                  }`}
                 >
-                  <DropdownMenuItem key={region} className="cursor-pointer">
-                    {region}
+                  <DropdownMenuItem className="cursor-pointer">
+                    {name}
                   </DropdownMenuItem>
-                </a>
+                </Link>
               ))}
             </DropdownMenuContent>
           </DropdownMenu>

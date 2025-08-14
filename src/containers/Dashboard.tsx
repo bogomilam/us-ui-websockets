@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { useParams } from "react-router-dom";
 
 type RegionData = {
   timestamp: string;
@@ -8,6 +9,8 @@ type RegionData = {
 type Snapshot = Record<string, RegionData>;
 
 export default function Dashboard() {
+  const { region } = useParams<{ region: string }>();
+
   const [data, setData] = useState<Snapshot>({});
   const [connected, setConnected] = useState(false);
 
@@ -37,6 +40,8 @@ export default function Dashboard() {
       console.log("Disconnected from WebSocket server");
       setConnected(false);
     };
+
+    console.log("Bogogogo WebSocket connection established", data);
 
     return () => {
       ws.close();
