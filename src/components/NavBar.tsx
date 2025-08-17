@@ -21,7 +21,7 @@ export default function Navbar() {
                 ? "Select Region"
                 : location.pathname.slice(1)}
             </button>
-            <div className="absolute right-0 w-40 bg-gray-700 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
+            <div className="absolute z-40 right-0 w-40 bg-gray-700 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
               {regions.map(({ name, path }: Region) => (
                 // <Page key={path} name={name} path={path} element={<element />} />
                 <Link

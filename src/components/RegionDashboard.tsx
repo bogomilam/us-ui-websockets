@@ -91,7 +91,7 @@ export const RegionDashboard: React.FC = () => {
   }, [currentRegion]);
 
   return (
-    <div className="p-4">
+    <div className="p-4 my-12 bg-gray-100 rounded shadow-md">
       {/* Live Data */}
       {liveData && (
         <div className="mb-8">
