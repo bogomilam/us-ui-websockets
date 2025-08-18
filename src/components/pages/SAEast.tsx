@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { RegionDashboard } from "../RegionDashboard";
+import { RegionDashboard } from "../Dashboard";
 
 export const SAEast: () => ReactNode = () => {
   return <RegionDashboard />;

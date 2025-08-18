@@ -12,19 +12,11 @@ import {
 import { StatusData } from "@/types/types";
 
 const MAX_ITEMS = 50;
-// const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL?.replace(/\/$/, "");
 
-// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL!;
-
-// WebSocket connection
-// const ws = new WebSocket("ws://localhost:8080");
 const ws = new WebSocket(
   `${BACKEND_URL.replace(/^http/, "ws").replace(/\/$/, "")}/ws`
 );
-// const ws = new WebSocket(
-//   `${BACKEND_URL.replace(/^http/, "ws").replace(/\/$/, "")}/ws`
-// );
 
 export const RegionDashboard: React.FC = () => {
   const location = useLocation();
@@ -37,7 +29,6 @@ export const RegionDashboard: React.FC = () => {
   useEffect(() => {
     if (!BACKEND_URL) return;
 
-    // const ws = new WebSocket(`${BACKEND_URL.replace(/^http/, "ws")}/ws`);
     const wsURL = `${BACKEND_URL.replace(/^http/, "ws")}/ws`;
     const ws = new WebSocket(wsURL);
 
@@ -114,7 +105,7 @@ export const RegionDashboard: React.FC = () => {
   }, [currentRegion]);
 
   return (
-    <div className="p-4 my-12 bg-blue-300 rounded shadow-md">
+    <div className="p-4 m-12 bg-blue-300 rounded shadow-md">
       {/* Live Data */}
       {liveData && (
         <div className="mb-8 text-gray-600">
@@ -178,7 +169,7 @@ export const RegionDashboard: React.FC = () => {
           </ResponsiveContainer>
 
           {/* Chart Legend Indicator */}
-          <div className="flex flex-wrap text-gray-600 justify-center gap-6 mt-4">
+          <div className="flex flex-wrap p-12 text-gray-600 justify-center gap-6 mt-4">
             <div className="flex items-center gap-2">
               <span
                 className="w-4 h-4 rounded-full"
