@@ -21,14 +21,16 @@ export default function Navbar() {
                 ? "Select Region"
                 : location.pathname.slice(1)}
             </button>
-            <div className="absolute min-w-[260px] my-0.5  z-40 right-0 w-40 bg-gray-700 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
+            <div className="absolute min-w-[260px]  z-40 right-0 w-40 bg-gray-700 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
               {regions.map(({ name, path }: Region) => (
                 <Link
                   key={path}
                   to={path}
                   className="block px-4 py-2 hover:bg-gray-500 text-white hover:text-gray-100"
                 >
-                  {name}
+                  <button className=" px-4 py-2 min-w-[180px] rounded ">
+                    {name}
+                  </button>
                 </Link>
               ))}
             </div>
