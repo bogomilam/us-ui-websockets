@@ -1,6 +1,6 @@
-// src/components/RegionDashboard.tsx
+import { StatusData } from "@/types/types";
 import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import {
   LineChart,
   Line,
@@ -11,34 +11,9 @@ import {
   ResponsiveContainer,
 } from "recharts";
 
-interface Region {
-  name: string;
-  path: string;
-}
-
-interface StatusData {
-  region: string;
-  createdAt: string;
-  online: number;
-  serversCount: number;
-  cpuLoad: number;
-  raw?: any;
-}
-
-// Max items to keep in chart/history
 const MAX_ITEMS = 50;
 
-// Define your regions
-const regions: Region[] = [
-  { name: "US East", path: "us-east" },
-  { name: "EU West", path: "eu-west" },
-  { name: "EU Central", path: "eu-central" },
-  { name: "US West", path: "us-west" },
-  { name: "SA East", path: "sa-east" },
-  { name: "AP Southeast", path: "ap-southeast" },
-];
-
-// Create a single WebSocket connection
+// WebSocket connection
 const ws = new WebSocket("ws://localhost:8080");
 
 export const RegionDashboard: React.FC = () => {
@@ -53,15 +28,47 @@ export const RegionDashboard: React.FC = () => {
     ws.onmessage = (event) => {
       const msg = JSON.parse(event.data);
 
-      if (msg.type === "live" && msg.data.region === currentRegion) {
-        setLiveData(msg.data);
-        setHistoryData((prev) => [...prev.slice(-MAX_ITEMS + 1), msg.data]);
+      if (
+        (msg.type === "live" || msg.type === "update") &&
+        msg.data.region === currentRegion
+      ) {
+        const normalized: StatusData = {
+          region: msg.data.region,
+          createdAt: msg.data.createdAt,
+          online: msg.data.results?.stats?.online ?? msg.data.online ?? 0,
+          serversCount:
+            msg.data.results?.stats?.servers_count ??
+            msg.data.serversCount ??
+            0,
+          cpuLoad:
+            msg.data.results?.stats?.server?.cpu_load ?? msg.data.cpuLoad ?? 0,
+          activeConnections:
+            msg.data.results?.stats?.server?.active_connections ?? 0,
+          waitTime: msg.data.results?.stats?.server?.wait_time ?? 0,
+          raw: msg.data,
+        };
+
+        setLiveData(normalized);
+        setHistoryData((prev) => [...prev.slice(-MAX_ITEMS + 1), normalized]);
       }
 
       if (msg.type === "history") {
         const filtered = msg.data
-          .filter((d: StatusData) => d.region === currentRegion)
+          .filter((d: any) => d.region === currentRegion)
+          .map((d: any) => ({
+            region: d.region,
+            createdAt: d.createdAt,
+            online: d.results?.stats?.online ?? d.online ?? 0,
+            serversCount:
+              d.results?.stats?.servers_count ?? d.serversCount ?? 0,
+            cpuLoad: d.results?.stats?.server?.cpu_load ?? d.cpuLoad ?? 0,
+            activeConnections:
+              d.results?.stats?.server?.active_connections ?? 0,
+            waitTime: d.results?.stats?.server?.wait_time ?? 0,
+            raw: d,
+          }))
           .slice(-MAX_ITEMS);
+
         setHistoryData(filtered);
       }
 
@@ -91,7 +98,7 @@ export const RegionDashboard: React.FC = () => {
   }, [currentRegion]);
 
   return (
-    <div className="p-4 my-12 bg-gray-100 rounded shadow-md">
+    <div className="p-4 my-12 bg-blue-300 rounded shadow-md">
       {/* Live Data */}
       {liveData && (
         <div className="mb-8">
@@ -100,6 +107,8 @@ export const RegionDashboard: React.FC = () => {
           </h2>
           <p>Servers Online: {liveData.online}</p>
           <p>CPU Load: {liveData.cpuLoad}</p>
+          <p>Active Connections: {liveData.activeConnections}</p>
+          <p>Wait Time: {liveData.waitTime}</p>
           <p>Servers Count: {liveData.serversCount}</p>
         </div>
       )}
@@ -121,6 +130,7 @@ export const RegionDashboard: React.FC = () => {
               <Tooltip
                 labelFormatter={(val) => new Date(val).toLocaleString()}
               />
+
               <Line
                 type="monotone"
                 dataKey="online"
@@ -129,12 +139,44 @@ export const RegionDashboard: React.FC = () => {
               />
               <Line
                 type="monotone"
-                dataKey="cpuLoad"
-                stroke="#82ca9d"
-                name="CPU Load"
+                dataKey="activeConnections"
+                stroke="#ff7300"
+                name="Active Connections"
               />
+              <Line
+                type="monotone"
+                dataKey="waitTime"
+                stroke="#ff0000"
+                name="Wait Time"
+              />
+
             </LineChart>
           </ResponsiveContainer>
+          {/* Custom Legend */}
+          <div className="flex flex-wrap justify-center gap-6 mt-4">
+            <div className="flex items-center gap-2">
+              <span
+                className="w-4 h-4 rounded-full"
+                style={{ backgroundColor: "#8884d8" }}
+              ></span>
+              <span>Online Users</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span
+                className="w-4 h-4 rounded-full"
+                style={{ backgroundColor: "#ff7300" }}
+              ></span>
+              <span>Active Connections</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <span
+                className="w-4 h-4 rounded-full"
+                style={{ backgroundColor: "#ff0000" }}
+              ></span>
+              <span>Wait Time</span>
+            </div>
+    
+          </div>
         </div>
       )}
     </div>
