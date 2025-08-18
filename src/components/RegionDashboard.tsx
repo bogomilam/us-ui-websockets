@@ -1,4 +1,3 @@
-import { StatusData } from "@/types/types";
 import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import {
@@ -10,11 +9,15 @@ import {
   CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
+import { StatusData } from "@/types/types";
+
 
 const MAX_ITEMS = 50;
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL!;
 
 // WebSocket connection
-const ws = new WebSocket("ws://localhost:8080");
+// const ws = new WebSocket("ws://localhost:8080");
+const ws = new WebSocket(`${BACKEND_URL.replace(/^http/, "ws")}/ws`);
 
 export const RegionDashboard: React.FC = () => {
   const location = useLocation();
@@ -101,7 +104,7 @@ export const RegionDashboard: React.FC = () => {
     <div className="p-4 my-12 bg-blue-300 rounded shadow-md">
       {/* Live Data */}
       {liveData && (
-        <div className="mb-8">
+        <div className="mb-8 text-gray-600">
           <h2 className="text-xl font-bold mb-2">
             Live Data ({liveData.region})
           </h2>
@@ -116,7 +119,7 @@ export const RegionDashboard: React.FC = () => {
       {/* Historical Chart */}
       {historyData.length > 0 && (
         <div>
-          <h2 className="text-xl font-bold mb-2">
+          <h2 className="text-xl text-gray-600 font-bold mb-2">
             History (Last {MAX_ITEMS} points)
           </h2>
           <ResponsiveContainer width="100%" height={300}>
@@ -149,11 +152,11 @@ export const RegionDashboard: React.FC = () => {
                 stroke="#ff0000"
                 name="Wait Time"
               />
-
             </LineChart>
           </ResponsiveContainer>
-          {/* Custom Legend */}
-          <div className="flex flex-wrap justify-center gap-6 mt-4">
+
+          {/* Chart Legend Indicator */}
+          <div className="flex flex-wrap text-gray-600 justify-center gap-6 mt-4">
             <div className="flex items-center gap-2">
               <span
                 className="w-4 h-4 rounded-full"
@@ -175,7 +178,6 @@ export const RegionDashboard: React.FC = () => {
               ></span>
               <span>Wait Time</span>
             </div>
-    
           </div>
         </div>
       )}

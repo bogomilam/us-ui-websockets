@@ -16,14 +16,13 @@ export default function Navbar() {
         <div className="space-x-4">
           {/* Dropdown for Regions */}
           <div className="relative group">
-            <button className="bg-gray-700 px-4 py-2 rounded hover:bg-gray-600">
+            <button className="bg-gray-700 px-4 py-2 min-w-[180px] rounded hover:bg-gray-600">
               {location.pathname === "/"
                 ? "Select Region"
                 : location.pathname.slice(1)}
             </button>
-            <div className="absolute z-40 right-0 w-40 bg-gray-700 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
+            <div className="absolute min-w-[260px] my-0.5  z-40 right-0 w-40 bg-gray-700 text-white rounded shadow-lg opacity-0 group-hover:opacity-100 pointer-events-none group-hover:pointer-events-auto transition-opacity duration-300">
               {regions.map(({ name, path }: Region) => (
-                // <Page key={path} name={name} path={path} element={<element />} />
                 <Link
                   key={path}
                   to={path}
