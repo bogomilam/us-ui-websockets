@@ -12,7 +12,8 @@ import {
 import { StatusData } from "@/types/types";
 
 const MAX_ITEMS = 50;
-const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+// const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL?.replace(/\/$/, "");
 
 // const BACKEND_URL = process.env.REACT_APP_BACKEND_URL!;
 
@@ -36,7 +37,9 @@ export const RegionDashboard: React.FC = () => {
   useEffect(() => {
     if (!BACKEND_URL) return;
 
-    const ws = new WebSocket(`${BACKEND_URL.replace(/^http/, "ws")}/ws`);
+    // const ws = new WebSocket(`${BACKEND_URL.replace(/^http/, "ws")}/ws`);
+    const wsURL = `${BACKEND_URL.replace(/^http/, "ws")}/ws`;
+    const ws = new WebSocket(wsURL);
 
     ws.onmessage = (event) => {
       const msg = JSON.parse(event.data);
