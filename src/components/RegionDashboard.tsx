@@ -131,6 +131,11 @@ export const RegionDashboard: React.FC = () => {
 
       {/* Historical Chart */}
       {historyData.length > 0 && (
+        <h2 className="text-xl text-gray-600 font-bold mb-2">
+          Loading Region data...
+        </h2>
+      )}
+      {historyData.length > 0 && (
         <div>
           <h2 className="text-xl text-gray-600 font-bold mb-2">
             History (Last {MAX_ITEMS} points)
