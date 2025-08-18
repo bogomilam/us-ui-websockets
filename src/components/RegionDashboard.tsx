@@ -11,7 +11,6 @@ import {
 } from "recharts";
 import { StatusData } from "@/types/types";
 
-
 const MAX_ITEMS = 50;
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL!;
 
@@ -127,11 +126,15 @@ export const RegionDashboard: React.FC = () => {
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis
                 dataKey="createdAt"
-                tickFormatter={(val) => new Date(val).toLocaleTimeString()}
+                tickFormatter={(val: string | number) =>
+                  new Date(val).toLocaleTimeString()
+                }
               />
               <YAxis />
               <Tooltip
-                labelFormatter={(val) => new Date(val).toLocaleString()}
+                labelFormatter={(val: string | number) =>
+                  new Date(val).toLocaleString()
+                }
               />
 
               <Line
