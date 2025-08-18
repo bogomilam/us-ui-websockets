@@ -132,7 +132,7 @@ export const RegionDashboard: React.FC = () => {
       {/* Historical Chart */}
       {historyData.length === 0 && (
         <h2 className="text-xl text-gray-600 font-bold mb-2">
-          {`Loading ${liveData?.region} data...`}
+          {`Loading ${currentRegion ?? ""} data...`}
         </h2>
       )}
       {historyData.length > 0 && (
