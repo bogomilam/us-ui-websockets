@@ -12,11 +12,18 @@ import {
 import { StatusData } from "@/types/types";
 
 const MAX_ITEMS = 50;
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL!;
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
+
+// const BACKEND_URL = process.env.REACT_APP_BACKEND_URL!;
 
 // WebSocket connection
 // const ws = new WebSocket("ws://localhost:8080");
-const ws = new WebSocket(`${BACKEND_URL.replace(/^http/, "ws")}/ws`);
+const ws = new WebSocket(
+  `${BACKEND_URL.replace(/^http/, "ws").replace(/\/$/, "")}/ws`
+);
+// const ws = new WebSocket(
+//   `${BACKEND_URL.replace(/^http/, "ws").replace(/\/$/, "")}/ws`
+// );
 
 export const RegionDashboard: React.FC = () => {
   const location = useLocation();
